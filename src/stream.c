@@ -3,26 +3,42 @@
 #include <stdlib.h>
 
 void read(streams *stream, int readsize) {
-  printf("File<< ");
-  scanf_s("%s", stream->writebuffer, (unsigned)_countof(stream->writebuffer));
+  printf("Allocating....\n");
+
+  if (stream == NULL) {
+    fprintf(stderr, "Invalid stream pointer\n");
+    exit(-6);
+  }
+
+  if (stream->writebuffer == NULL) {
+    fprintf(stderr, "Write buffer not allocated\n");
+    exit(-7);
+  }
+
+  printf("File>> ");
+  scanf_s("%s", stream->writebuffer, readsize);
+
   printf("\n Looking for %s....\n", stream->writebuffer);
+
   errno_t err = fopen_s(&stream->file, stream->writebuffer, "r");
-  switch (err) {
-  case 0:
-    printf("Opened file %s\n", stream->writebuffer);
-  case 1:
+  if (err != 0) {
     fprintf(stderr, "Couldn't Open File %s\n", stream->writebuffer);
     exit(-3);
   }
+
+  printf("Opened file %s\n", stream->writebuffer);
+
   stream->readbuffer = malloc(sizeof(char) * readsize);
+  if (stream->readbuffer == NULL) {
+    fprintf(stderr, "Failed to allocate read buffer\n");
+    fclose(stream->file);
+    exit(-5);
+  }
+
   while (fgets(stream->readbuffer, readsize, stream->file)) {
     printf_s("%s", stream->readbuffer);
   }
+
   fclose(stream->file);
-  free(stream);
-  if (stream != NULL || stream->readbuffer != NULL ||
-      stream->writebuffer != NULL) {
-    fprintf(stderr, "Couldn't Free File I/O Buffer\n");
-    exit(-4);
-  }
+  free(stream->readbuffer);
 }

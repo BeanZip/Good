@@ -17,9 +17,12 @@ void loop(char *buffer) {
       status = false;
     } else if (strcmp(buffer, "!speckles") == 0) {
       streams *stream = malloc(sizeof(streams));
+      printf("DEBUG: Starting up stream...\n");
       if (stream == NULL) {
         fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
         exit(-5);
+      } else {
+        printf("Allocation Success!\n");
       }
       read(stream, 1000);
       free(stream);
