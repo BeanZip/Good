@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_SIZE 1000
 void loop(char *buffer) {
   bool status = true;
   do {
@@ -13,16 +12,24 @@ void loop(char *buffer) {
       goto done;
     }
     printf("Good>> ");
-    scanf_s("%s", buffer, (unsigned)_countof(buffer));
+    scanf_s("%s", buffer, (unsigned)_countof(buffer) * 8);
     if (strcmp(buffer, "!q") == 0) {
       status = false;
-    } else if (strcmp(buffer, "!speckles")) {
-      streams *stream;
-      stream->writebuffer = malloc(sizeof(char) * 100);
-      char *a = read(stream, 1000);
-      printf("%s", a);
+    } else if (strcmp(buffer, "!speckles") == 0) {
+      streams *stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
+        exit(-5);
+      }
+      read(stream, 1000);
+      free(stream);
+      stream = NULL;
+      if (NULL != stream) {
+        exit(-6);
+      }
+      continue;
     } else {
-      printf("Unknown Command: %s\n", buffer);
+      fprintf(stderr, "Unknown Command: %s\n", buffer);
     }
 
   } while (status);

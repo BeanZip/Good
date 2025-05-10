@@ -10,6 +10,7 @@ int main() {
   char *buffer = (char *)malloc(BUFFERSIZE);
   if (buffer == NULL) {
     fprintf(stderr, "Couldn't Allocate Memory\n");
+    return -1;
   }
   loop(buffer);
   return 0;

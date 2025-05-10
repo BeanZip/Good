@@ -7,9 +7,9 @@ typedef char *str;
 typedef struct {
   FILE *file;
   char *writebuffer;
-  char *readBuffer;
+  char *readbuffer;
 } streams;
 
-str read(streams *stream, int readsize);
+void read(streams *stream, int readsize);
 
 #endif
