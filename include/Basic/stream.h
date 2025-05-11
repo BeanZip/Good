@@ -11,5 +11,5 @@ typedef struct {
 } streams;
 
 void read(streams *stream, int readsize);
-
+void create(streams *stream, int readsize);
 #endif

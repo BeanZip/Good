@@ -20,7 +20,6 @@ void loop(char *buffer) {
       printf("DEBUG: Starting up stream...\n");
       if (stream == NULL) {
         fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
-        exit(-5);
       } else {
         printf("Allocation Success!\n");
       }
@@ -31,6 +30,20 @@ void loop(char *buffer) {
         exit(-6);
       }
       continue;
+    } else if (strcmp(buffer, "!fest") == 0) {
+      streams *stream = malloc(sizeof(streams));
+      printf("DEBUG: Starting up stream\n");
+      if (stream == NULL) {
+        fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
+      } else {
+        printf("Succesful Allocation!\n");
+      }
+      create(stream, 100);
+      free(stream);
+      stream = NULL;
+      if (NULL != stream) {
+        exit(-9);
+      }
     } else {
       fprintf(stderr, "Unknown Command: %s\n", buffer);
     }
