@@ -12,21 +12,16 @@ void read(streams *stream, int readsize) {
   printf("File>> ");
 
   stream->writebuffer = malloc(sizeof(char) * readsize);
-  scanf_s("%s", stream->writebuffer, readsize);
+  scanf("%s", stream->writebuffer);
   if (stream->writebuffer == NULL || strcmp(stream->writebuffer, "") == 0) {
-    fprintf_s(stderr, "Write buffer not allocated\n");
+    fprintf(stderr, "Write buffer not allocated\n");
     free(stream->writebuffer);
     exit(-7);
   }
 
   printf("\n Looking for %s....\n", stream->writebuffer);
 
-  errno_t err = fopen_s(&stream->file, stream->writebuffer, "r");
-  if (err != 0) {
-    fprintf_s(stderr, "Couldn't Open File %s\n", stream->writebuffer);
-    free(stream->writebuffer);
-    return;
-  }
+  stream->file = fopen(stream->writebuffer, "r");
 
   printf("Opened file %s\n", stream->writebuffer);
 
@@ -39,7 +34,7 @@ void read(streams *stream, int readsize) {
   }
 
   while (fgets(stream->readbuffer, readsize, stream->file)) {
-    printf_s("%s\n", stream->readbuffer);
+    printf("%s\n", stream->readbuffer);
   }
 
   fclose(stream->file);
@@ -57,14 +52,8 @@ void create(streams *stream, int readsize) {
     fprintf(stderr, "Couldn't Allocate\n");
     return;
   }
-  scanf_s("%s", stream->writebuffer, readsize);
-  errno_t err = fopen_s(&stream->file, stream->writebuffer, "w");
-  if (err != 0) {
-    fprintf_s(stderr, "Couldn't Create File named %s\n", stream->writebuffer);
-    free(stream->writebuffer);
-    return;
-  }
-
+  scanf("%s", stream->writebuffer);
+  stream->file = fopen(stream->writebuffer, "w");
   fclose(stream->file);
 }
 
@@ -75,15 +64,10 @@ void write(streams *stream, int readsize) {
   }
   printf("File>> ");
   stream->writebuffer = malloc(sizeof(char) * readsize);
-  scanf_s("%s", stream->writebuffer, readsize);
-  errno_t err = fopen_s(&stream->file, stream->writebuffer, "w");
-  if (err != 0) {
-    fprintf(stderr, "Couldn't Write File named %s\n", stream->writebuffer);
-    free(stream->writebuffer);
-    return;
-  }
+  scanf("%s", stream->writebuffer);
+  stream->file = fopen(stream->writebuffer, "w");
   printf("Write>> ");
-  scanf_s("%s", stream->writebuffer, readsize);
+  scanf("%s", stream->writebuffer);
   fprintf(stream->file, "%s", stream->writebuffer);
   fclose(stream->file);
 }

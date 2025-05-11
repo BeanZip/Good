@@ -13,7 +13,7 @@ void echo() {
   if (response == NULL) {
     fprintf(stderr, "Failure to Allocate\n");
   }
-  scanf_s("%s", response, READSIZE);
+  scanf("%s", response);
   printf("\nInputted: %s\n", response);
   free(response);
 }
@@ -25,7 +25,7 @@ void loop(char *buffer) {
       goto done;
     }
     printf("Good>> ");
-    scanf_s("%s", buffer, (unsigned)_countof(buffer) * 8);
+    scanf("%s", buffer);
     if (strcmp(buffer, "!q") == 0) {
       status = false;
     } else if (strcmp(buffer, "!speckles") == 0) {
