@@ -5,6 +5,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define READSIZE 1000
+
+void echo() {
+  printf("echo>> ");
+  char *response = malloc(sizeof(char) * 20);
+  if (response == NULL) {
+    fprintf(stderr, "Failure to Allocate\n");
+  }
+  scanf_s("%s", response, READSIZE);
+  printf("\nInputted: %s\n", response);
+  free(response);
+}
+
 void loop(char *buffer) {
   bool status = true;
   do {
@@ -23,7 +36,7 @@ void loop(char *buffer) {
       } else {
         printf("Allocation Success!\n");
       }
-      read(stream, 1000);
+      read(stream, READSIZE);
       free(stream);
       stream = NULL;
       if (NULL != stream) {
@@ -38,12 +51,28 @@ void loop(char *buffer) {
       } else {
         printf("Succesful Allocation!\n");
       }
-      create(stream, 100);
+      create(stream, READSIZE);
       free(stream);
       stream = NULL;
       if (NULL != stream) {
         exit(-9);
       }
+    } else if (strcmp(buffer, "!pen") == 0) {
+      streams *stream = malloc(sizeof(streams));
+      printf("DEBUG: Starting up stream\n");
+      if (stream == NULL) {
+        fprintf(stderr, "Couldn't Allocate Memory for streams\n");
+      } else {
+        printf("Succesful Allocation\n");
+      }
+      write(stream, READSIZE);
+      free(stream);
+      stream = NULL;
+      if (NULL != stream) {
+        exit(-10);
+      }
+    } else if (strcmp(buffer, "!yell") == 0) {
+      echo();
     } else {
       fprintf(stderr, "Unknown Command: %s\n", buffer);
     }

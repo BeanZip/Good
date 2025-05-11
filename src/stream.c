@@ -39,7 +39,7 @@ void read(streams *stream, int readsize) {
   }
 
   while (fgets(stream->readbuffer, readsize, stream->file)) {
-    printf_s("%s", stream->readbuffer);
+    printf_s("%s\n", stream->readbuffer);
   }
 
   fclose(stream->file);
@@ -65,5 +65,25 @@ void create(streams *stream, int readsize) {
     return;
   }
 
+  fclose(stream->file);
+}
+
+void write(streams *stream, int readsize) {
+  if (stream == NULL) {
+    fprintf(stderr, "Couldn't access stream\n");
+    return;
+  }
+  printf("File>> ");
+  stream->writebuffer = malloc(sizeof(char) * readsize);
+  scanf_s("%s", stream->writebuffer, readsize);
+  errno_t err = fopen_s(&stream->file, stream->writebuffer, "w");
+  if (err != 0) {
+    fprintf(stderr, "Couldn't Write File named %s\n", stream->writebuffer);
+    free(stream->writebuffer);
+    return;
+  }
+  printf("Write>> ");
+  scanf_s("%s", stream->writebuffer, readsize);
+  fprintf(stream->file, "%s", stream->writebuffer);
   fclose(stream->file);
 }
