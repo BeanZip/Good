@@ -30,7 +30,7 @@ cd build
 cmake ..
 cmake --build .
 # if using windows then check build/debug for
-.exe file
+# .exe file
 ```
 
 ## via docker
