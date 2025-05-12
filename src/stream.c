@@ -74,3 +74,21 @@ void write(streams *stream, int readsize) {
   fclose(stream->file);
   return;
 }
+
+void incinerate(streams *stream, int readsize) {
+  printf("File<< ");
+  stream->writebuffer = malloc(sizeof(char) * readsize);
+  if (stream == NULL || stream->writebuffer == NULL) {
+    fprintf(stderr, "Couldn't access stream\n");
+    return;
+  }
+  scanf("%s", stream->writebuffer);
+
+  if (remove(stream->writebuffer) != 0) {
+    fprintf(stderr, "Couldn't Remove File with name %s\n", stream->writebuffer);
+    free(stream->writebuffer);
+    return;
+  }
+  printf("Deleted File With Name %s\n", stream->writebuffer);
+  return;
+}

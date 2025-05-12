@@ -13,4 +13,5 @@ typedef struct {
 void read(streams *stream, int readsize);
 void create(streams *stream, int readsize);
 void write(streams *stream, int readsize);
+void incinerate(streams *stream, int readsize);
 #endif

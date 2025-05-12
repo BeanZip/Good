@@ -73,6 +73,20 @@ void loop(char *buffer) {
       }
     } else if (strcmp(buffer, "!yell") == 0) {
       echo();
+    } else if (strcmp(buffer, "!fire") == 0) {
+      streams *stream = malloc(sizeof(streams));
+      printf("DEBUG: Starting up stream\n");
+      if (stream == NULL) {
+        fprintf(stderr, "Couldn't Allocate Memory for streams\n");
+      } else {
+        printf("Succesful Allocation\n");
+      }
+      incinerate(stream, READSIZE);
+      free(stream);
+      stream = NULL;
+      if (NULL != stream) {
+        exit(-11);
+      }
     } else {
       fprintf(stderr, "Unknown Command: %s\n", buffer);
     }
