@@ -39,6 +39,7 @@ void read(streams *stream, int readsize) {
 
   fclose(stream->file);
   free(stream->readbuffer);
+  return;
 }
 
 void create(streams *stream, int readsize) {
@@ -55,6 +56,7 @@ void create(streams *stream, int readsize) {
   scanf("%s", stream->writebuffer);
   stream->file = fopen(stream->writebuffer, "w");
   fclose(stream->file);
+  return;
 }
 
 void write(streams *stream, int readsize) {
@@ -70,4 +72,5 @@ void write(streams *stream, int readsize) {
   scanf("%s", stream->writebuffer);
   fprintf(stream->file, "%s", stream->writebuffer);
   fclose(stream->file);
+  return;
 }
