@@ -19,6 +19,7 @@
 | !pen | Writes to Any File |
 | !yell | Echoes Any Word |
 | !fire | Delete&apos;s Any File |
+| !wipe | Clear&apos;s previous command logs |
 
 ## Building
 
