@@ -35,7 +35,7 @@ void enlargeBuffer(char *buffer) {
     fprintf(stderr, "\nFailed To ReAllocate");
     return;
   }
-  realloc(buffer, a);
+  buffer = realloc(buffer, a);
   if (buffer == NULL) {
     fprintf(stderr, "\nERROR BUFFER REALLOC FAILED\n");
     exit(-12);
