@@ -6,7 +6,7 @@
 #include <string.h>
 
 #define READSIZE 1000
-
+#define DELIMITER " "
 void clear() {
 #ifdef _WIN32
   system("cls");
@@ -27,15 +27,15 @@ void clear() {
   return;
 }
 
-void enlargeBuffer(char *buffer) {
+void enlargeBuffer(char **buffer) {
   printf("Alloc<< ");
   int a;
   scanf("%d", &a);
-  if (a == 0) {
-    fprintf(stderr, "\nFailed To ReAllocate");
-    return;
+  if(a <= 0 || a >= 32){
+	  fprintf(stderr,"Allocation Failed!!");
+	  return;
   }
-  buffer = realloc(buffer, a);
+  *buffer = realloc(buffer, a * 4096);
   if (buffer == NULL) {
     fprintf(stderr, "\nERROR BUFFER REALLOC FAILED\n");
     exit(-12);
@@ -50,9 +50,14 @@ void echo() {
     fprintf(stderr, "Failure to Allocate\n");
   }
   scanf("%s", response);
-  printf("\nInputted: %s\n", response);
+  char* tok = strtok(response,DELIMITER);
+  while(tok != NULL){
+	  printf("%s\n",tok);
+	  tok = strtok(NULL," ");
+  }
   free(response);
 }
+
 
 void loop(char *buffer) {
   bool status = true;
@@ -62,6 +67,8 @@ void loop(char *buffer) {
     }
     printf("Good>> ");
     scanf("%s", buffer);
+    //TODO: Use Tokens to Split Line of Buffer
+    char* token = strtok(buffer,DELIMITER);
     if (strcmp(buffer, "!q") == 0) {
       status = false;
     } else if (strcmp(buffer, "!speckles") == 0) {
@@ -110,7 +117,7 @@ void loop(char *buffer) {
     } else if (strcmp(buffer, "!yell") == 0) {
       echo();
     } else if (strcmp(buffer, "!enlarge") == 0) {
-      enlargeBuffer(buffer);
+      enlargeBuffer(&buffer);
     } else if (strcmp(buffer, "!wipe") == 0) {
       clear();
     } else if (strcmp(buffer, "!fire") == 0) {

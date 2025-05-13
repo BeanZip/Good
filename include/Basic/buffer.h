@@ -6,5 +6,5 @@
 
 void loop(char *buffer);
 void echo();
-void enlargeBuffer(char *buffer);
+void enlargeBuffer(char **buffer);
 #endif
