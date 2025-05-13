@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void read(streams *stream, int readsize) {
+void read(streams *stream, int size) {
   if (stream == NULL) {
     fprintf(stderr, "Invalid stream pointer\n");
     exit(-6);
@@ -11,84 +11,82 @@ void read(streams *stream, int readsize) {
 
   printf("File>> ");
 
-  stream->writebuffer = malloc(sizeof(char) * readsize);
-  scanf("%s", stream->writebuffer);
-  if (stream->writebuffer == NULL || strcmp(stream->writebuffer, "") == 0) {
+  stream->wBuffer = malloc(sizeof(char) * size);
+  scanf("%s", stream->wBuffer);
+  if (stream->wBuffer == NULL || strcmp(stream->wBuffer, "") == 0) {
     fprintf(stderr, "Write buffer not allocated\n");
-    free(stream->writebuffer);
+    free(stream->wBuffer);
     exit(-7);
   }
 
-  printf("\n Looking for %s....\n", stream->writebuffer);
+  printf("\n Looking for %s....\n", stream->wBuffer);
 
-  stream->file = fopen(stream->writebuffer, "r");
+  stream->file = fopen(stream->wBuffer, "r");
 
-  printf("Opened file %s\n", stream->writebuffer);
+  printf("Opened file %s\n", stream->wBuffer);
 
-  stream->readbuffer = malloc(sizeof(char) * readsize);
-  if (stream->readbuffer == NULL) {
+  stream->rBuffer = malloc(sizeof(char) * size);
+  if (stream->rBuffer == NULL) {
     fprintf(stderr, "Failed to allocate read buffer\n");
-    free(stream->writebuffer);
+    free(stream->wBuffer);
     fclose(stream->file);
     return;
   }
 
-  while (fgets(stream->readbuffer, readsize, stream->file)) {
-    printf("%s\n", stream->readbuffer);
+  while (fgets(stream->rBuffer, size, stream->file)) {
+    printf("%s\n", stream->rBuffer);
   }
 
   fclose(stream->file);
-  free(stream->readbuffer);
+  free(stream->rBuffer);
   return;
 }
 
-void create(streams *stream, int readsize) {
+void create(streams *stream, int size) {
   if (stream == NULL) {
     fprintf(stderr, "Invalid stream Pointer\n");
   }
 
   printf("File>> ");
-  stream->writebuffer = malloc(sizeof(char) * readsize);
-  if (readsize == 0 || stream->writebuffer == 0) {
+  stream->wBuffer = malloc(sizeof(char) * size);
+  if (size == 0 || stream->wBuffer == 0) {
     fprintf(stderr, "Couldn't Allocate\n");
     return;
   }
-  scanf("%s", stream->writebuffer);
-  stream->file = fopen(stream->writebuffer, "w");
+  scanf("%s", stream->wBuffer);
+  stream->file = fopen(stream->wBuffer, "w");
   fclose(stream->file);
   return;
 }
 
-void write(streams *stream, int readsize) {
+void write(streams *stream, int size) {
   if (stream == NULL) {
     fprintf(stderr, "Couldn't access stream\n");
     return;
   }
   printf("File>> ");
-  stream->writebuffer = malloc(sizeof(char) * readsize);
-  scanf("%s", stream->writebuffer);
-  stream->file = fopen(stream->writebuffer, "w");
+  stream->wBuffer = malloc(sizeof(char) * size);
+  scanf("%s", stream->wBuffer);
+  stream->file = fopen(stream->wBuffer, "w");
   printf("Write>> ");
-  scanf("%s", stream->writebuffer);
-  fprintf(stream->file, "%s", stream->writebuffer);
+  scanf("%s", stream->wBuffer);
+  fprintf(stream->file, "%s", stream->wBuffer);
   fclose(stream->file);
-  return;
 }
 
-void incinerate(streams *stream, int readsize) {
+void incinerate(streams *stream, int size) {
   printf("File<< ");
-  stream->writebuffer = malloc(sizeof(char) * readsize);
-  if (stream == NULL || stream->writebuffer == NULL) {
+  stream->wBuffer = malloc(sizeof(char) * size);
+  if (stream == NULL || stream->wBuffer == NULL) {
     fprintf(stderr, "Couldn't access stream\n");
     return;
   }
-  scanf("%s", stream->writebuffer);
+  scanf("%s", stream->wBuffer);
 
-  if (remove(stream->writebuffer) != 0) {
-    fprintf(stderr, "Couldn't Remove File with name %s\n", stream->writebuffer);
-    free(stream->writebuffer);
+  if (remove(stream->wBuffer) != 0) {
+    fprintf(stderr, "Couldn't Remove File with name %s\n", stream->wBuffer);
+    free(stream->wBuffer);
     return;
   }
-  printf("Deleted File With Name %s\n", stream->writebuffer);
-  return;
+  printf("Deleted File With Name %s\n", stream->wBuffer);
 }
