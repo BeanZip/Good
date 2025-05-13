@@ -20,10 +20,10 @@
 | !yell | Echoes Any Word |
 | !fire | Delete&apos;s Any File |
 
+## Building
 
-# Building
+### via cmake
 
-## via cmake
 ```shell
 mkdir build
 cd build
@@ -33,7 +33,8 @@ cmake --build .
 # .exe file
 ```
 
-## via docker
+### via docker
+
 ```shell
 #!/bin/bash
 
