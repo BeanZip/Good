@@ -7,6 +7,42 @@
 
 #define READSIZE 1000
 
+void clear() {
+#ifdef _WIN32
+  system("cls");
+#elif __linux__
+  system("clear");
+  return;
+#elif __APPLE__ && __MACH__
+  system("clear");
+  return;
+#elif __unix__
+  system("clear");
+  return;
+#else
+  fprintf(stderr, "Couldn't Find Clear for OS So Trying Linux Version\n");
+  system("clear");
+  return;
+#endif
+  return;
+}
+
+void enlargeBuffer(char *buffer) {
+  printf("Alloc<< ");
+  int a;
+  scanf("%d", &a);
+  if (a == 0) {
+    fprintf(stderr, "\nFailed To ReAllocate");
+    return;
+  }
+  realloc(buffer, a);
+  if (buffer == NULL) {
+    fprintf(stderr, "\nERROR BUFFER REALLOC FAILED\n");
+    exit(-12);
+  }
+  return;
+}
+
 void echo() {
   printf("echo>> ");
   char *response = malloc(sizeof(char) * 20);
@@ -73,6 +109,10 @@ void loop(char *buffer) {
       }
     } else if (strcmp(buffer, "!yell") == 0) {
       echo();
+    } else if (strcmp(buffer, "!enlarge") == 0) {
+      enlargeBuffer(buffer);
+    } else if (strcmp(buffer, "!wipe") == 0) {
+      clear();
     } else if (strcmp(buffer, "!fire") == 0) {
       streams *stream = malloc(sizeof(streams));
       printf("DEBUG: Starting up stream\n");
