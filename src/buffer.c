@@ -140,7 +140,7 @@ done:
     fprintf(stderr, "Uh Oh, Couldn't Free Buffer\n");
     exit(-2);
   } else {
-    printf("Buffer has been Succesfully Freed\n");
+    printf("Buffer has been Successfully Freed\n");
     exit(0);
   }
 }
