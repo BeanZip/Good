@@ -56,13 +56,14 @@ void echo() {
   char *token = strtok(input, DELIMITER);
 
   while (token != NULL) {
-    printf("%s ", token);            
+    printf("%s ", token);
     token = strtok(NULL, DELIMITER);
   }
   printf("\n");
 
   free(input);
 }
+
 void loop(char *buffer) {
   bool status = true;
   do {
@@ -72,7 +73,7 @@ void loop(char *buffer) {
     printf("Good>> ");
     scanf("%s", buffer);
     char *token = strtok(buffer, DELIMITER);
-    
+
     if (token != NULL) {
       if (strcmp(token, "!q") == 0) {
         status = false;
@@ -90,7 +91,7 @@ void loop(char *buffer) {
         if (NULL != stream) {
           exit(-6);
         }
-      } else if (strcmp(token, "!fest") == 0) { 
+      } else if (strcmp(token, "!fest") == 0) {
         streams *stream = malloc(sizeof(streams));
         printf("DEBUG: Starting up stream\n");
         if (stream == NULL) {
@@ -120,11 +121,11 @@ void loop(char *buffer) {
         }
       } else if (strcmp(token, "!yell") == 0) {
         echo();
-      } else if (strcmp(token, "!enlarge") == 0) { 
+      } else if (strcmp(token, "!enlarge") == 0) {
         enlargeBuffer(buffer);
-      } else if (strcmp(token, "!wipe") == 0){
+      } else if (strcmp(token, "!wipe") == 0) {
         clear();
-      } else if (strcmp(token, "!fire") == 0) { 
+      } else if (strcmp(token, "!fire") == 0) {
         streams *stream = malloc(sizeof(streams));
         printf("DEBUG: Starting up stream\n");
         if (stream == NULL) {
@@ -141,7 +142,7 @@ void loop(char *buffer) {
       } else {
         fprintf(stderr, "Unknown Command: %s\n", token);
       }
-      
+
       token = strtok(NULL, DELIMITER);
       while (token != NULL) {
         fprintf(stderr, "Ignoring extra argument: %s\n", token);
