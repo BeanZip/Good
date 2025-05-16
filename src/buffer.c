@@ -1,5 +1,6 @@
 #include "../include/Basic/buffer.h"
 #include "../include/Basic/stream.h"
+#include "../include/Misc/misc.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -139,6 +140,8 @@ void loop(char *buffer) {
         if (NULL != stream) {
           exit(-11);
         }
+      } else if (strcmp(token, "neofetch")) {
+        fetch();
       } else {
         fprintf(stderr, "Unknown Command: %s\n", token);
       }
