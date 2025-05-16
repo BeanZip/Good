@@ -8,16 +8,17 @@ void shutdown(int readSize) {
   char *commandBuffer = malloc(sizeof(char) * readSize);
   int sleep_time;
   scanf("%d", &sleep_time);
-  
+
   int c;
-  while ((c = getchar()) != '\n' && c != EOF);
-  
+  while ((c = getchar()) != '\n' && c != EOF)
+    ;
+
   if (sleep_time > MAX_TIME || sleep_time < 0) {
     fprintf(stderr, "Invalid Sleep Time");
     free(commandBuffer);
     return;
   }
-  
+
 #ifdef _WIN32
   snprintf(commandBuffer, readSize, "shutdown /s /t %d", sleep_time);
   system(commandBuffer);
@@ -43,4 +44,24 @@ void shutdown(int readSize) {
   return;
 #endif
   return;
+}
+
+void fetch() {
+#ifdef _WIN32
+  system("neofetch");
+  return;
+#elif __linux__
+  system("neofetch");
+  return;
+#elif __APPLE__ && __MACH__
+  system("neofetch");
+  return;
+#elif __unix__
+  system("neofetch");
+  return;
+#else
+  fprintf(stderr, "Couldn't Find OS Type\n");
+  system("neofetch");
+  return;
+#endif
 }
