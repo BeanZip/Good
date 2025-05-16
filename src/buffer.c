@@ -140,7 +140,7 @@ void loop(char *buffer) {
         if (NULL != stream) {
           exit(-11);
         }
-      } else if (strcmp(token, "neofetch")) {
+      } else if (strcmp(token, "neofetch") == 0) {
         fetch();
       } else {
         fprintf(stderr, "Unknown Command: %s\n", token);
