@@ -20,20 +20,24 @@ void shutdown(int readSize) {
   }
 
 #ifdef _WIN32
+  printf("\nFounded Type: Windows\n");
   snprintf(commandBuffer, readSize, "shutdown /s /t %d", sleep_time);
   system(commandBuffer);
   free(commandBuffer);
 #elif __linux__
+  printf("\nFounded Type: Linux\n");
   snprintf(commandBuffer, readSize, "shutdown -h +%d", sleep_time);
   system(commandBuffer);
   free(commandBuffer);
   return;
 #elif __APPLE__ && __MACH__
+  printf("\nFounded Type: MacOS\n");
   snprintf(commandBuffer, readSize, "shutdown -h +%d", sleep_time);
   system(commandBuffer);
   free(commandBuffer);
   return;
 #elif __unix__
+  printf("\nFounded Type: Unix(Could be FreeBSD??)\n");
   snprintf(commandBuffer, readSize, "shutdown -h +%d", sleep_time);
   system(commandBuffer);
   free(commandBuffer);
@@ -48,15 +52,19 @@ void shutdown(int readSize) {
 
 void fetch() {
 #ifdef _WIN32
+  printf("\nFounded Type: Windows\n");
   system("neofetch");
   return;
 #elif __linux__
+  printf("\nFounded Type: Linux\n");
   system("neofetch");
   return;
 #elif __APPLE__ && __MACH__
+  printf("\nFounded Type: MacOS\n");
   system("neofetch");
   return;
 #elif __unix__
+  printf("\nFounded Type: Unix(Could be FreeBSD??)\n");
   system("neofetch");
   return;
 #else

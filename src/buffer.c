@@ -88,6 +88,8 @@ int switchCommand(char *buffer) {
     return 7;
   } else if (strcmp(buffer, "neofetch") == 0) {
     return 8;
+  } else if (strcmp(buffer, "!adios") == 0) {
+    return 9;
   }
   return -22;
 }
@@ -125,15 +127,23 @@ void loop(char *buffer) {
       free(stream);
       break;
     case 3:
-      echo();
+      stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "\nCouldn't Allocate For Stream");
+      }
+      write(stream, READSIZE);
+      free(stream);
       break;
     case 4:
-      enlargeBuffer(buffer);
+      echo();
       break;
     case 5:
-      clear();
+      enlargeBuffer(buffer);
       break;
     case 6:
+      clear();
+      break;
+    case 7:
       stream = malloc(sizeof(streams));
       if (stream == NULL) {
         fprintf(stderr, "\n Couldn't Allocate For Stream");
@@ -141,15 +151,11 @@ void loop(char *buffer) {
       incinerate(stream, READSIZE);
       free(stream);
       break;
-    case 7:
-      stream = malloc(sizeof(streams));
-      if (stream == NULL) {
-        fprintf(stderr, "\n Couldn't Allocate For Stream");
-      }
-      free(stream);
-      break;
     case 8:
       fetch();
+      break;
+    case 9:
+      shutdown(READSIZE);
       break;
     default:
       printf("\nUnknown Command %s\n", token);
