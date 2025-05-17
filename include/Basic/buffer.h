@@ -7,4 +7,5 @@
 void loop(char *buffer);
 void echo();
 void enlargeBuffer(char *buffer);
+int switchCommand(char *buffer);
 #endif

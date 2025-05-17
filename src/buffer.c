@@ -65,8 +65,36 @@ void echo() {
   free(input);
 }
 
+int switchCommand(char *buffer) {
+  if (buffer == NULL) {
+    fprintf(stderr, "ERROR! Buffer is empty\n");
+    return -99;
+  }
+  if (strcmp(buffer, "!q") == 0) {
+    return 0;
+  } else if (strcmp(buffer, "!speckles") == 0) {
+    return 1;
+  } else if (strcmp(buffer, "!fest") == 0) {
+    return 2;
+  } else if (strcmp(buffer, "!pen") == 0) {
+    return 3;
+  } else if (strcmp(buffer, "!yell") == 0) {
+    return 4;
+  } else if (strcmp(buffer, "!enlarge") == 0) {
+    return 5;
+  } else if (strcmp(buffer, "!wipe") == 0) {
+    return 6;
+  } else if (strcmp(buffer, "!fire") == 0) {
+    return 7;
+  } else if (strcmp(buffer, "neofetch") == 0) {
+    return 8;
+  }
+  return -22;
+}
+
 void loop(char *buffer) {
   bool status = true;
+  streams *stream;
   do {
     if (!status) {
       goto done;
@@ -74,83 +102,62 @@ void loop(char *buffer) {
     printf("Good>> ");
     scanf("%s", buffer);
     char *token = strtok(buffer, DELIMITER);
-
-    if (token != NULL) {
-      if (strcmp(token, "!q") == 0) {
-        status = false;
-      } else if (strcmp(token, "!speckles") == 0) {
-        streams *stream = malloc(sizeof(streams));
-        printf("DEBUG: Starting up stream...\n");
-        if (stream == NULL) {
-          fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
-        } else {
-          printf("Allocation Success!\n");
-        }
-        read(stream, READSIZE);
-        free(stream);
-        stream = NULL;
-        if (NULL != stream) {
-          exit(-6);
-        }
-      } else if (strcmp(token, "!fest") == 0) {
-        streams *stream = malloc(sizeof(streams));
-        printf("DEBUG: Starting up stream\n");
-        if (stream == NULL) {
-          fprintf(stderr, "Couldn't Allocate Memory for Streams\n");
-        } else {
-          printf("Succesful Allocation!\n");
-        }
-        create(stream, READSIZE);
-        free(stream);
-        stream = NULL;
-        if (NULL != stream) {
-          exit(-9);
-        }
-      } else if (strcmp(token, "!pen") == 0) {
-        streams *stream = malloc(sizeof(streams));
-        printf("DEBUG: Starting up stream\n");
-        if (stream == NULL) {
-          fprintf(stderr, "Couldn't Allocate Memory for streams\n");
-        } else {
-          printf("Succesful Allocation\n");
-        }
-        write(stream, READSIZE);
-        free(stream);
-        stream = NULL;
-        if (NULL != stream) {
-          exit(-10);
-        }
-      } else if (strcmp(token, "!yell") == 0) {
-        echo();
-      } else if (strcmp(token, "!enlarge") == 0) {
-        enlargeBuffer(buffer);
-      } else if (strcmp(token, "!wipe") == 0) {
-        clear();
-      } else if (strcmp(token, "!fire") == 0) {
-        streams *stream = malloc(sizeof(streams));
-        printf("DEBUG: Starting up stream\n");
-        if (stream == NULL) {
-          fprintf(stderr, "Couldn't Allocate Memory for streams\n");
-        } else {
-          printf("Succesful Allocation\n");
-        }
-        incinerate(stream, READSIZE);
-        free(stream);
-        stream = NULL;
-        if (NULL != stream) {
-          exit(-11);
-        }
-      } else if (strcmp(token, "neofetch") == 0) {
-        fetch();
-      } else {
-        fprintf(stderr, "Unknown Command: %s\n", token);
+    switch (switchCommand(token)) {
+    case 0:
+      printf("\n Exiting Shell...");
+      status = false;
+      break;
+    case 1:
+      stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "\n Error Couldn't Allocate for Stream");
+        return;
       }
-
+      read(stream, READSIZE);
+      free(stream);
+      break;
+    case 2:
+      stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "\nCouldn't Allocate For Stream");
+      }
+      create(stream, READSIZE);
+      free(stream);
+      break;
+    case 3:
+      echo();
+      break;
+    case 4:
+      enlargeBuffer(buffer);
+      break;
+    case 5:
+      clear();
+      break;
+    case 6:
+      stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "\n Couldn't Allocate For Stream");
+      }
+      incinerate(stream, READSIZE);
+      free(stream);
+      break;
+    case 7:
+      stream = malloc(sizeof(streams));
+      if (stream == NULL) {
+        fprintf(stderr, "\n Couldn't Allocate For Stream");
+      }
+      free(stream);
+      break;
+    case 8:
+      fetch();
+      break;
+    default:
+      printf("\nUnknown Command %s\n", token);
+    }
+    token = strtok(NULL, DELIMITER);
+    while (token != NULL) {
+      printf("\nIgnoring Arguments %s\n", token);
       token = strtok(NULL, DELIMITER);
-      while (token != NULL) {
-        fprintf(stderr, "Ignoring extra argument: %s\n", token);
-        token = strtok(NULL, DELIMITER);
-      }
     }
   } while (status);
 
